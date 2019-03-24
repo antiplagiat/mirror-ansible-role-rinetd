@@ -1,0 +1,30 @@
+---
+# vars file for rinetd
+allowedhosts:
+  - comment: 'lan1'
+    hosts: 
+      - 192.168.0.1
+      - 192.168.0.10
+  - comment: 'lan2'
+    hosts:
+      - 192.168.1.*
+deniedhosts:
+  - comment: 'blacklist'
+    hosts: 
+      - 192.168.1.10
+redirections:
+  - comment: 'webserver'
+    connectaddress: 192.168.0.11
+    ports:
+      - connectport: 22
+        bindport: 2200
+      - connectport: 80
+        bindport: 8000
+      - connectport: 443
+        bindport: 44300
+  - comment: 'workstation'
+    connectaddress: 192.168.0.12
+    bindaddress: 192.168.1.9
+    ports:
+      - connectport: 5900
+        bindport: 5900

@@ -1,0 +1,7 @@
+---
+# defaults file for rinetd
+bindaddress: "{{ ansible_default_ipv4.address }}"
+logging:
+  disabled: false
+  logfile: /var/log/rinetd.log
+  logcommon: false

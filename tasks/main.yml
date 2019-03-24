@@ -1,0 +1,14 @@
+---
+# tasks file for rinetd
+- name: install rinetd
+  apt:
+    name: rinetd
+    state: present
+- name: configure rinetd
+  template:
+    src: rinetd.conf.j2
+    dest: /etc/rinetd.conf
+    owner: root
+    group: root
+    mode: 0644
+  notify: restart rinetd

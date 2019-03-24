@@ -1,0 +1,54 @@
+#
+# this is the configuration file for rinetd, the internet redirection server
+#
+# you may specify global allow and deny rules here
+# only ip addresses are matched, hostnames cannot be specified here
+# the wildcards you may use are * and ?
+#
+# allow 192.168.2.*
+# deny 192.168.2.1?
+
+{% if allowedhosts is defined %}
+{% for group in allowedhosts %}
+{% if group.comment is defined %}
+# {{ group.comment }}
+{% endif %}
+{% for host in group.hosts %}
+allow {{ host }}
+{% endfor %}{% endfor %}
+{% endif %}
+{% if deniedhosts is defined %}
+{% for group in deniedhosts %}
+{% if group.comment is defined %}
+# {{ group.comment }}
+{% endif %}
+{% for host in group.hosts %}
+deny {{ host }}
+{% endfor %}{% endfor %}
+{% endif %}
+
+#
+# bindaddress    bindport  connectaddress  connectport
+
+{% for redirection in redirections %}
+{% if redirection.comment is defined %}
+# {{ redirection.comment }}
+{% endif %}
+{% for ports in redirection.ports %}
+{{ redirection.bindaddress|default( bindaddress ) }}	{{ ports.bindport }}	{{ redirection.connectaddress }}	{{ ports.connectport }}
+{% endfor %}
+{% endfor %}
+
+# logging information
+{% if logging.disabled is defined and logging.disabled %}
+#logfile /var/log/rinetd.log
+{% else %}
+logfile {{ logging.logfile|default('/var/log/rinetd.log') }}
+{% endif %}
+
+# uncomment the following line if you want web-server style logfile format
+{% if logging.logcommon is defined and logging.logcommon %}
+logcommon
+{% else %}
+#logcommon
+{% endif %}

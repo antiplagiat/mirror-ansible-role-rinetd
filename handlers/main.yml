@@ -1,0 +1,6 @@
+---
+# handlers file for rinetd
+- name: restart rinetd
+  service:
+    name: rinetd
+    state: restarted
